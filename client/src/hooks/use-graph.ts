@@ -9,6 +9,10 @@ interface GraphResult {
     name: string;
     x: number[];
     y: number[];
+    marker?: {
+      size: number;
+      color: string;
+    };
   }[];
   plotLayout: Partial<Layout>;
   intersections: { x: number; y: number }[];
@@ -22,6 +26,7 @@ export function useGraph(
 ): GraphResult {
   return useMemo(() => {
     try {
+      // Generate plot data for functions
       const plotData = functions
         .filter(Boolean)
         .map((fn, i) => ({
@@ -38,6 +43,21 @@ export function useGraph(
           const points = findIntersection(functions[i], functions[i + 1], xRange);
           intersections.push(...points);
         }
+      }
+
+      // Add intersection points as a separate scatter plot
+      if (intersections.length > 0) {
+        plotData.push({
+          x: intersections.map(p => p.x),
+          y: intersections.map(p => p.y),
+          type: "scatter",
+          mode: "markers",
+          name: "Intersections",
+          marker: {
+            size: 10,
+            color: "red",
+          },
+        });
       }
 
       const plotLayout: Partial<Layout> = {
