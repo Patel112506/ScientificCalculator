@@ -44,6 +44,28 @@ export function useCalculator() {
         setIsRadians(false);
         break;
 
+      // Handle special function keys
+      case "sin":
+      case "cos":
+      case "tan":
+      case "log":
+      case "ln":
+      case "√":
+        setExpression(prev => prev + key + "(");
+        break;
+
+      case "x²":
+        setExpression(prev => prev + "^2");
+        break;
+
+      case "x³":
+        setExpression(prev => prev + "^3");
+        break;
+
+      case "π":
+        setExpression(prev => prev + "π");
+        break;
+
       default:
         setExpression(prev => prev + key);
     }
