@@ -6,14 +6,15 @@ export function useCalculator() {
   const [result, setResult] = useState("");
   const [error, setError] = useState<string>();
   const [history, setHistory] = useState<{ expression: string; result: string }[]>([]);
+  const [isRadians, setIsRadians] = useState(true);
   const [memory, setMemory] = useState<string>("0");
 
   const handleKeyPress = (key: string) => {
     setError(undefined);
-    
+
     switch (key) {
       case "=":
-        const { result: newResult, error: newError } = evaluateExpression(expression);
+        const { result: newResult, error: newError } = evaluateExpression(expression, isRadians);
         if (newError) {
           setError(newError);
         } else {
@@ -21,20 +22,28 @@ export function useCalculator() {
           setHistory(prev => [{expression, result: newResult}, ...prev]);
         }
         break;
-        
+
       case "C":
         setExpression("");
         setResult("");
         break;
-        
+
       case "⌫":
         setExpression(prev => prev.slice(0, -1));
         break;
-        
+
       case "Ans":
         setExpression(prev => prev + result);
         break;
-        
+
+      case "Rad":
+        setIsRadians(true);
+        break;
+
+      case "°":
+        setIsRadians(false);
+        break;
+
       default:
         setExpression(prev => prev + key);
     }
@@ -46,6 +55,7 @@ export function useCalculator() {
     error,
     history,
     memory,
+    isRadians,
     handleKeyPress,
   };
 }
