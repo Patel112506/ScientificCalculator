@@ -33,6 +33,8 @@ export default function Calculator() {
                 <Keypad 
                   onKeyPress={calculator.handleKeyPress} 
                   isRadians={calculator.isRadians}
+                  isSecond={calculator.isSecond}
+                  onToggleSecond={() => calculator.setIsSecond(prev => !prev)}
                 />
               </TabsContent>
 

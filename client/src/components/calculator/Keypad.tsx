@@ -8,15 +8,35 @@ const KEYS = [
   ["0", ".", "(", "+", ")", "Inv", "hyp", "Reg"],
 ];
 
+const SECOND_KEYS = [
+  ["asin", "acos", "atan", "^", "(", ")", "C", "⌫"],
+  ["7", "8", "9", "÷", "π", "10^x", "e^x", "√"],
+  ["4", "5", "6", "×", "e", "x²", "x³", "!"],
+  ["1", "2", "3", "-", "Ans", "EE", "Mode", "="],
+  ["0", ".", "(", "+", ")", "Inv", "hyp", "Reg"],
+];
+
 interface KeypadProps {
   onKeyPress: (key: string) => void;
   isRadians: boolean;
+  isSecond?: boolean;
+  onToggleSecond: () => void;
 }
 
-export default function Keypad({ onKeyPress, isRadians }: KeypadProps) {
+export default function Keypad({ onKeyPress, isRadians, isSecond = false, onToggleSecond }: KeypadProps) {
+  const currentKeys = isSecond ? SECOND_KEYS : KEYS;
+
   return (
     <div className="space-y-2">
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={onToggleSecond}
+          className={`text-xs font-mono ${isSecond ? 'bg-primary/10' : ''}`}
+        >
+          2ND
+        </Button>
         <Button 
           variant="outline" 
           size="sm"
@@ -28,7 +48,7 @@ export default function Keypad({ onKeyPress, isRadians }: KeypadProps) {
       </div>
 
       <div className="grid grid-cols-8 gap-1">
-        {KEYS.map((row, i) =>
+        {currentKeys.map((row, i) =>
           row.map((key, j) => (
             <Button
               key={`${i}-${j}`}

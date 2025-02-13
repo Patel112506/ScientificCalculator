@@ -7,6 +7,7 @@ export function useCalculator() {
   const [error, setError] = useState<string>();
   const [history, setHistory] = useState<{ expression: string; result: string }[]>([]);
   const [isRadians, setIsRadians] = useState(true);
+  const [isSecond, setIsSecond] = useState(false);
   const [memory, setMemory] = useState<string>("0");
 
   const handleKeyPress = (key: string) => {
@@ -44,8 +45,13 @@ export function useCalculator() {
       case "sin":
       case "cos":
       case "tan":
+      case "asin":
+      case "acos":
+      case "atan":
       case "log":
       case "ln":
+      case "10^x":
+      case "e^x":
       case "√":
         setExpression(prev => prev + key + "(");
         break;
@@ -74,6 +80,8 @@ export function useCalculator() {
     history,
     memory,
     isRadians,
+    isSecond,
+    setIsSecond,
     handleKeyPress,
   };
 }

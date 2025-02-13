@@ -13,18 +13,23 @@ export function evaluateExpression(expr: string, isRadians = true): { result: st
       .replace(/÷/g, "/")
       .replace(/π/g, "pi");
 
-    // Add missing parentheses for trig functions
-    // Handle both formats: sin30 and sin(30)
+    // Add missing parentheses for trig functions and inverse functions
     cleanExpr = cleanExpr
       .replace(/sin(\d+)/g, "sin($1)")
       .replace(/cos(\d+)/g, "cos($1)")
       .replace(/tan(\d+)/g, "tan($1)")
+      .replace(/asin(\d+)/g, "asin($1)")
+      .replace(/acos(\d+)/g, "acos($1)")
+      .replace(/atan(\d+)/g, "atan($1)")
       .replace(/log(\d+)/g, "log($1)")
       .replace(/ln(\d+)/g, "ln($1)")
       // Also handle cases where there might be missing closing parentheses
       .replace(/sin\(([^)]+)$/g, "sin($1)")
       .replace(/cos\(([^)]+)$/g, "cos($1)")
       .replace(/tan\(([^)]+)$/g, "tan($1)")
+      .replace(/asin\(([^)]+)$/g, "asin($1)")
+      .replace(/acos\(([^)]+)$/g, "acos($1)")
+      .replace(/atan\(([^)]+)$/g, "atan($1)")
       .replace(/log\(([^)]+)$/g, "log($1)")
       .replace(/ln\(([^)]+)$/g, "ln($1)");
 
@@ -33,13 +38,18 @@ export function evaluateExpression(expr: string, isRadians = true): { result: st
       cleanExpr = cleanExpr
         .replace(/sin\(/g, "sin(pi/180*")
         .replace(/cos\(/g, "cos(pi/180*")
-        .replace(/tan\(/g, "tan(pi/180*");
+        .replace(/tan\(/g, "tan(pi/180*")
+        .replace(/asin\(/g, "180/pi*asin(")
+        .replace(/acos\(/g, "180/pi*acos(")
+        .replace(/atan\(/g, "180/pi*atan(");
     }
 
     // Handle special functions
     cleanExpr = cleanExpr
       .replace(/log\(/g, "log10(")
       .replace(/ln\(/g, "log(")  // ln is natural logarithm (base e)
+      .replace(/10\^x\(/g, "10^")
+      .replace(/e\^x\(/g, "e^")
       .replace(/x²/g, "^2")
       .replace(/x³/g, "^3")
       .replace(/√\(/g, "sqrt(");
