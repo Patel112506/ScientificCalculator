@@ -36,12 +36,8 @@ export function useCalculator() {
         setExpression(prev => prev + result);
         break;
 
-      case "Rad":
-        setIsRadians(true);
-        break;
-
-      case "°":
-        setIsRadians(false);
+      case "Mode":
+        setIsRadians(prev => !prev);
         break;
 
       // Handle special function keys

@@ -14,11 +14,17 @@ export function evaluateExpression(expr: string, isRadians = true): { result: st
       .replace(/π/g, "pi");
 
     // Add missing parentheses for trig functions
+    // Handle both formats: sin30 and sin(30)
     cleanExpr = cleanExpr
       .replace(/sin(\d+)/g, "sin($1)")
       .replace(/cos(\d+)/g, "cos($1)")
       .replace(/tan(\d+)/g, "tan($1)")
-      .replace(/log(\d+)/g, "log($1)");
+      .replace(/log(\d+)/g, "log($1)")
+      // Also handle cases where there might be missing closing parentheses
+      .replace(/sin\(([^)]+)$/g, "sin($1)")
+      .replace(/cos\(([^)]+)$/g, "cos($1)")
+      .replace(/tan\(([^)]+)$/g, "tan($1)")
+      .replace(/log\(([^)]+)$/g, "log($1)");
 
     // Handle trigonometric functions in degree mode
     if (!isRadians) {
