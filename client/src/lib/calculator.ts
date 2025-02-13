@@ -20,11 +20,13 @@ export function evaluateExpression(expr: string, isRadians = true): { result: st
       .replace(/cos(\d+)/g, "cos($1)")
       .replace(/tan(\d+)/g, "tan($1)")
       .replace(/log(\d+)/g, "log($1)")
+      .replace(/ln(\d+)/g, "ln($1)")
       // Also handle cases where there might be missing closing parentheses
       .replace(/sin\(([^)]+)$/g, "sin($1)")
       .replace(/cos\(([^)]+)$/g, "cos($1)")
       .replace(/tan\(([^)]+)$/g, "tan($1)")
-      .replace(/log\(([^)]+)$/g, "log($1)");
+      .replace(/log\(([^)]+)$/g, "log($1)")
+      .replace(/ln\(([^)]+)$/g, "ln($1)");
 
     // Handle trigonometric functions in degree mode
     if (!isRadians) {
@@ -37,7 +39,7 @@ export function evaluateExpression(expr: string, isRadians = true): { result: st
     // Handle special functions
     cleanExpr = cleanExpr
       .replace(/log\(/g, "log10(")
-      .replace(/ln\(/g, "log(")
+      .replace(/ln\(/g, "log(")  // ln is natural logarithm (base e)
       .replace(/x²/g, "^2")
       .replace(/x³/g, "^3")
       .replace(/√\(/g, "sqrt(");
