@@ -15,7 +15,7 @@ export default function Calculator() {
         <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
           Scientific Graphing Calculator
         </h1>
-        
+
         <div className="grid md:grid-cols-[2fr,1fr] gap-4">
           <Card className="p-4">
             <Tabs defaultValue="calculator">
@@ -23,22 +23,25 @@ export default function Calculator() {
                 <TabsTrigger value="calculator">Calculator</TabsTrigger>
                 <TabsTrigger value="graph">Graph</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="calculator" className="space-y-4">
                 <Display 
                   expression={calculator.expression} 
                   result={calculator.result}
                   error={calculator.error}
                 />
-                <Keypad onKeyPress={calculator.handleKeyPress} />
+                <Keypad 
+                  onKeyPress={calculator.handleKeyPress} 
+                  isRadians={calculator.isRadians}
+                />
               </TabsContent>
-              
+
               <TabsContent value="graph">
                 <Graph />
               </TabsContent>
             </Tabs>
           </Card>
-          
+
           <Card className="p-4">
             <History calculations={calculator.history} />
           </Card>
